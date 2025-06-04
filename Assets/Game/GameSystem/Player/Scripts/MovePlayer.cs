@@ -29,16 +29,14 @@ namespace MazeLight.Characters
             }
             if (_onMove)
             {
-                OnMove();
+                OnMove(Input.mousePosition);
             }
         }
-
-        public void OnMove()
+        public void OnMove(Vector3 dir)
         {
-            Vector3 mousePosition = Input.mousePosition;
-            mousePosition.z = _camera.WorldToScreenPoint(_player.transform.position).z;
+            dir.z = _camera.WorldToScreenPoint(_player.transform.position).z;
 
-            Vector3 worldPosition = _camera.ScreenToWorldPoint(mousePosition);
+            Vector3 worldPosition = _camera.ScreenToWorldPoint(dir);
             worldPosition.y = _player.transform.position.y;
 
             Vector3 direction = (worldPosition - _player.transform.position).normalized;

@@ -21,7 +21,7 @@ namespace MazeLight.Core
             {
                 _player.maskMaterial.SetVector("_LightPos", _player.Light.transform.position);
                 _player.maskMaterial.SetFloat("_Radius", _player.Light.range);
-                Debug.Log($"Light Position: {_player.Light.transform.position}, Radius: {_player.Light.range}");
+                //Debug.Log($"Light Position: {_player.Light.transform.position}, Radius: {_player.Light.range}");
             }
         }
     }

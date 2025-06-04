@@ -7,6 +7,7 @@ namespace MazeLight.Characters
         public float RotateSpeed = 6;
         public Light Light;
         public Material maskMaterial;
+        public GameObject Model;
     }
 }
 
