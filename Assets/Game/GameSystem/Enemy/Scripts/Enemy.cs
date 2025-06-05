@@ -15,23 +15,20 @@ namespace MazeLight.Characters
         [SerializeField] private EnemyConfig _config;
         public MeshRenderer maskMaterial;
         public GameObject Model;
-        public NavMeshAgent meshAgent;
+        public NavMeshAgent NavAgent;
         public MoveEnemy MoveEnemy;
         public MeshRenderer Ground;
         public IEnemyState EnemyState;
-
-
-        public void Awake()
-        {
-            MoveEnemy = new MoveEnemy(this);
-        }
 
         public void Start()
         {
             Speed = _config.Speed;
             RotateSpeed = _config.SpeedRotate;
             maskMaterial.material = _config.Material;
+            MoveEnemy = new MoveEnemy(this);
             Model.transform.localScale = new Vector3(_config.Size, _config.Size, _config.Size);
+            var newPosY = Model.transform.position.y * 2;
+            transform.position = new Vector3(transform.position.x, newPosY, transform.position.z);
             EnemyState = new PatrolEnemy(this);
         }
 

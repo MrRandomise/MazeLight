@@ -1,5 +1,6 @@
 using MazeLight.Core;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace MazeLight.Characters
 {
@@ -14,7 +15,7 @@ namespace MazeLight.Characters
 
         public void OnMove(Vector3 dir)
         {
-            _enemy.meshAgent.SetDestination(dir);
+            _enemy.NavAgent.destination = dir;
         }
     }
 }

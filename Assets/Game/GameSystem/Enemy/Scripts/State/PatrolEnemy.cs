@@ -1,12 +1,13 @@
 using System;
 using UnityEngine;
+using System.Threading.Tasks;
 
 namespace MazeLight.Characters.State
 {
     public sealed class PatrolEnemy : IEnemyState
     {
         private Enemy _enemy;
-
+        private bool _active;
         public PatrolEnemy(Enemy enemy)
         {
             _enemy = enemy;
@@ -18,8 +19,20 @@ namespace MazeLight.Characters.State
         public void ExecuteState()
         {
             OnState?.Invoke(State.Patrol);
-            var newPoint = GetRandomPoint();
-            _enemy.MoveEnemy.OnMove(newPoint);
+            _active = true;
+            StartPatrol();
+        }
+
+        private async void StartPatrol()
+        {
+            while (_active)
+            {
+                await Task.Delay(3000);
+                var newPoint = GetRandomPoint();
+                _enemy.MoveEnemy.OnMove(newPoint);
+                await Task.Run(() => _enemy.NavAgent.remainingDistance <= _enemy.NavAgent.stoppingDistance);
+                Debug.Log("Пришли");
+            }
         }
 
         public void UpdateState()
@@ -29,10 +42,9 @@ namespace MazeLight.Characters.State
 
         private Vector3 GetRandomPoint()
         {
-            var point = _enemy.Ground.bounds.size;
-            Debug.Log(point);
-            var randPointX = UnityEngine.Random.Range(0, point.x);
-            var randPointZ = UnityEngine.Random.Range(0, point.z);
+            var point = _enemy.Ground.bounds.size / 2;
+            var randPointX = UnityEngine.Random.Range(point.x / 2, point.x);
+            var randPointZ = UnityEngine.Random.Range(point.z / 2, point.z);
             var newPoint =  new Vector3(randPointX, 0, randPointZ);
 
 
