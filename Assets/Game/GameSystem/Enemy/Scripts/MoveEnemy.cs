@@ -15,7 +15,10 @@ namespace MazeLight.Characters
 
         public void OnMove(Vector3 dir)
         {
-            _enemy.NavAgent.destination = dir;
+            if (_enemy != null && _enemy.NavAgent != null)
+            {
+                _enemy.NavAgent.destination = dir;
+            }
         }
     }
 }

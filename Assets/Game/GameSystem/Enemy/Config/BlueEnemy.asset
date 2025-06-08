@@ -16,5 +16,5 @@ MonoBehaviour:
   Speed: 2
   SpeedRotate: 2
   Size: 1
-  RadiusAttack: 10
+  RadiusOrb: 2
   Material: {fileID: 2100000, guid: 819393d65dca02a49b7bcb5350c73da1, type: 2}

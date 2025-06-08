@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
-namespace MazeLight.Characters.State
+namespace MazeLight.Characters.StateMachine
 {
-    public class AttackEnemy: IEnemyState
+    public class AttackEnemy: IStateMachine
     {
 
         private Enemy _enemy;
@@ -10,23 +10,22 @@ namespace MazeLight.Characters.State
         public AttackEnemy(Enemy enemy)
         {
             _enemy = enemy;
-            ExecuteState();
-        }
-        public Action<State> OnState { get; set; }
-
-        public void ExecuteState()
-        {
-            OnState?.Invoke(State.Attack);
         }
 
-        public void UpdateState()
+        public void Enter()
         {
-            Debug.Log("test");
+
         }
 
-        public IEnemyState GetState()
+        public void Exit()
         {
-            return this;
+
         }
+
+        public void Update()
+        {
+
+        }
+
     }
 }

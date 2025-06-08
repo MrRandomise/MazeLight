@@ -1,8 +1,7 @@
-using System;
 using UnityEngine;
-namespace MazeLight.Characters.State
+namespace MazeLight.Characters.StateMachine
 {
-    public class HarassEnemy: IEnemyState
+    public class HarassEnemy: IStateMachine
     {
 
         private Enemy _enemy;
@@ -10,24 +9,21 @@ namespace MazeLight.Characters.State
         public HarassEnemy(Enemy enemy)
         {
             _enemy = enemy;
-            ExecuteState();
         }
 
-        public Action<State> OnState { get; set; }
-
-        public void ExecuteState()
+        public void Enter()
         {
-            OnState?.Invoke(State.Harassment);
+            Debug.Log($"Преследуем!{_enemy.name}");
         }
 
-        public void UpdateState()
+        public void Exit()
         {
-            Debug.Log("test");
+
         }
 
-        public IEnemyState GetState()
+        public void Update()
         {
-            return this;
+            _enemy.MoveEnemy.OnMove(_enemy.Target.transform.position);
         }
     }
 }

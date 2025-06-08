@@ -1,4 +1,4 @@
-using MazeLight.Characters.State;
+using MazeLight.Characters.StateMachine;
 using MazeLight.Core.Configs;
 using System;
 using UnityEngine;
@@ -12,35 +12,44 @@ namespace MazeLight.Characters
     {
         [NonSerialized] public float Speed = 3;
         [NonSerialized] public float RotateSpeed = 6;
-        [SerializeField] private EnemyConfig _config;
+        [NonSerialized] public Player Target;
+        [SerializeField] private SphereCollider _colider;
+        private StateControl _stateControl;
+        public EnemyConfig Config;
         public MeshRenderer maskMaterial;
         public GameObject Model;
         public NavMeshAgent NavAgent;
         public MoveEnemy MoveEnemy;
         public MeshRenderer Ground;
-        public IEnemyState EnemyState;
+        public State State = new State();
 
         public void Start()
         {
-            Speed = _config.Speed;
-            RotateSpeed = _config.SpeedRotate;
-            maskMaterial.material = _config.Material;
+            Speed = Config.Speed;
+            RotateSpeed = Config.SpeedRotate;
+            maskMaterial.material = Config.Material;
+            _colider.radius = Config.DetectionDistance;
+            _stateControl = new StateControl(this);
             MoveEnemy = new MoveEnemy(this);
-            Model.transform.localScale = new Vector3(_config.Size, _config.Size, _config.Size);
+            Model.transform.localScale = new Vector3(Config.RadiusOrb, Config.RadiusOrb, Config.RadiusOrb);
             var newPosY = Model.transform.position.y * 2;
             transform.position = new Vector3(transform.position.x, newPosY, transform.position.z);
-            EnemyState = new PatrolEnemy(this);
+
         }
 
         private void Update()
         {
-            EnemyState.UpdateState();
+            State.CurrentState.Update();
         }
 
-        private void OnDrawGizmosSelected()
+        private void OnTriggerEnter(Collider other)
         {
-            Gizmos.color = new Color(0,255,0, 0.1f);
-            Gizmos.DrawSphere(transform.position, _config.RadiusAttack);
+            _stateControl.OnTrigger(other);
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            _stateControl.OnTriggerExit(other);
         }
     }
 }

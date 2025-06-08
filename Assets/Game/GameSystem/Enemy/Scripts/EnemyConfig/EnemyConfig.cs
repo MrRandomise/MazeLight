@@ -8,8 +8,11 @@ namespace MazeLight.Core.Configs
         public string Name = "Enemy";
         public float Speed = 2;
         public float SpeedRotate = 2;
-        public float Size = 2;
-        public float RadiusAttack = 4;
+        public float RadiusOrb = 4;
+        public float DetectionDistance = 4;
+        public float WaitTimePatrol = 3;
+        public float ActiveTimer = 5;
+        public float RuningAwayDistance = 15;
         public Material Material;
     }
 }
